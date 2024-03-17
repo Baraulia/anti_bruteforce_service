@@ -1,0 +1,15 @@
+logger:
+  level: INFO
+sql:
+  username: postgres
+  password: password
+  host: 0.0.0.0
+  port: 5435
+  database: backend
+httpServer:
+  host: 0.0.0.0
+  port: 8085
+app:
+  loginLimitAttempts: 10
+  passwordLimitAttempts: 100
+  ipLimitAttempts: 1000
