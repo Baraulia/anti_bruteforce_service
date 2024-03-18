@@ -35,6 +35,7 @@ type AppConfig struct {
 	LoginLimitAttempts    int
 	PasswordLimitAttempts int
 	IpLimitAttempts       int
+	Frequency             int
 }
 
 func NewConfig(path string) (Config, error) {
@@ -72,6 +73,7 @@ func NewConfig(path string) (Config, error) {
 	viper.SetDefault("App.LoginLimitAttempts", 10)
 	viper.SetDefault("App.PasswordLimitAttempts", 100)
 	viper.SetDefault("App.IpLimitAttempts", 1000)
+	viper.SetDefault("App.Frequency", 60)
 	viper.SetConfigFile(path)
 
 	if err := viper.ReadInConfig(); err != nil {

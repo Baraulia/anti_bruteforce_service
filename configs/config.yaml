@@ -13,3 +13,4 @@ app:
   loginLimitAttempts: 10
   passwordLimitAttempts: 100
   ipLimitAttempts: 1000
+  frequency: 60

@@ -9,33 +9,35 @@ import (
 
 type Limiter struct {
 	sync.Mutex
-	buckets map[string]*models.Bucket
+	frequency int
+	buckets   map[string]*models.Bucket
 }
 
-func NewLimiter() *Limiter {
+func NewLimiter(frequency int) *Limiter {
 	return &Limiter{
-		buckets: make(map[string]*models.Bucket),
+		buckets:   make(map[string]*models.Bucket),
+		frequency: frequency,
 	}
 }
 
 func (l *Limiter) Start(ctx context.Context) {
 	go func() {
-		ticker := time.NewTicker(time.Minute)
+		ticker := time.NewTicker(time.Duration(l.frequency) * time.Second)
 		select {
 		case <-ctx.Done():
 			ticker.Stop()
 			return
 		case <-ticker.C:
-			l.clearBuckets()
+			l.clear()
 		}
 	}()
 }
 
-func (l *Limiter) clearBuckets() {
+func (l *Limiter) clear() {
 	l.Lock()
 	defer l.Unlock()
 	for key, value := range l.buckets {
-		if time.Now().Sub(value.LastUpdate) > time.Minute {
+		if time.Now().Sub(value.LastUpdate) > time.Duration(l.frequency)*time.Second {
 			delete(l.buckets, key)
 		}
 	}
@@ -59,6 +61,7 @@ func (l *Limiter) CheckLimit(_ context.Context, key string) (int, error) {
 			value.LastUpdate = time.Now()
 			return 1, nil
 		default:
+			value.CurrentCount += 1
 			value.CurrentCount -= int(diffTime)
 			value.LastUpdate = time.Now()
 			return value.CurrentCount, nil

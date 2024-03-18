@@ -50,7 +50,7 @@ func main() {
 		Database: config.SQL.Database,
 	}, logg, true)
 
-	lim := limiter.NewLimiter()
+	lim := limiter.NewLimiter(config.App.Frequency)
 
 	application := app.New(logg, storage, lim, config.App.LoginLimitAttempts, config.App.PasswordLimitAttempts, config.App.IpLimitAttempts)
 
