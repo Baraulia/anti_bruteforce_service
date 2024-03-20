@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: backend
+    ports:
+      - "5435:5432"
+    networks:
+      - ab_network
+    volumes:
+      - postgres-ab-data:/var/lib/postgresql/data
+
+  service:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile
+    restart: always
+    environment:
+      sqlHost: postgres
+      sqlPort: 5432
+    ports:
+      - "8888:8085"
+    depends_on:
+      - postgres
+    networks:
+      - ab_network
+
+networks:
+  ab_network:
+
+volumes:
+  postgres-ab-data:
+

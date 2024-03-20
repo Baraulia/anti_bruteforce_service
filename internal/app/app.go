@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 
@@ -39,25 +40,27 @@ func New(
 }
 
 func (a *App) Check(ctx context.Context, data models.Data) (bool, error) {
-	exists, err := a.storage.CheckIPInWhiteList(ctx, data.Ip)
+	exists, err := a.storage.CheckIPInWhiteList(ctx, data.IP)
 	if err != nil {
 		return false, err
 	} else if exists {
 		return true, nil
 	}
 
-	exists, err = a.storage.CheckIPInBlackList(ctx, data.Ip)
+	exists, err = a.storage.CheckIPInBlackList(ctx, data.IP)
 	if err != nil || exists {
 		return false, err
 	}
 
-	count, err := a.limiter.CheckLimit(ctx, data.Ip)
+	count, err := a.limiter.CheckLimit(ctx, data.IP)
 	if err != nil {
 		return false, err
 	}
 
 	if count > a.ipLimitAttempts {
-		a.logger.Info("the number of authorization attempts from this IP has been exceeded", map[string]interface{}{"count attempts": count})
+		a.logger.Info("the number of authorization attempts from this IP has been exceeded",
+			map[string]interface{}{"count attempts": count})
+
 		return false, nil
 	}
 
@@ -67,7 +70,9 @@ func (a *App) Check(ctx context.Context, data models.Data) (bool, error) {
 	}
 
 	if count > a.loginLimitAttempts {
-		a.logger.Info("the number of authorization attempts from this login has been exceeded", map[string]interface{}{"count attempts": count})
+		a.logger.Info("the number of authorization attempts from this login has been exceeded",
+			map[string]interface{}{"count attempts": count})
+
 		return false, nil
 	}
 
@@ -77,7 +82,9 @@ func (a *App) Check(ctx context.Context, data models.Data) (bool, error) {
 	}
 
 	if count > a.passwordLimitAttempts {
-		a.logger.Info("the number of authorization attempts from this password has been exceeded", map[string]interface{}{"count attempts": count})
+		a.logger.Info("the number of authorization attempts from this password has been exceeded",
+			map[string]interface{}{"count attempts": count})
+
 		return false, nil
 	}
 
@@ -85,7 +92,7 @@ func (a *App) Check(ctx context.Context, data models.Data) (bool, error) {
 }
 
 func (a *App) ClearBuckets(ctx context.Context, data models.Data) error {
-	return a.limiter.ClearBuckets(ctx, data.Ip, data.Login)
+	return a.limiter.ClearBuckets(ctx, data.IP, data.Login)
 }
 
 func (a *App) AddToBlackList(ctx context.Context, ip string) error {

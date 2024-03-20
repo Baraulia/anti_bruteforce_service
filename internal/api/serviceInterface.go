@@ -1,8 +1,8 @@
 package api
 
-//nolint:depguard
 import (
 	"context"
+
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 

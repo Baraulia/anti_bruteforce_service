@@ -2,11 +2,12 @@ package limiter
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClearBuckets(t *testing.T) {

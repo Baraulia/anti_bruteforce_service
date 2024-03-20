@@ -5,6 +5,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+
 	"github.com/Baraulia/anti_bruteforce_service/internal/app"
 	// Empty import to ensure execution of code in the package's init function.
 	_ "github.com/lib/pq"
@@ -37,7 +38,8 @@ func NewPostgresStorage(conf PgConfig, logger app.Logger, migrate bool) *Postgre
 
 	db, err := sql.Open("postgres", storage.dataSource)
 	if err != nil {
-		storage.logger.Fatal("Unable to connect to database", map[string]interface{}{"error": err, "dataSource": storage.dataSource})
+		storage.logger.Fatal(
+			"Unable to connect to database", map[string]interface{}{"error": err, "dataSource": storage.dataSource})
 	}
 
 	err = db.Ping()
@@ -49,14 +51,14 @@ func NewPostgresStorage(conf PgConfig, logger app.Logger, migrate bool) *Postgre
 
 	if migrate {
 		whiteListQuery := fmt.Sprintf(`
-		CREATE TABLE %s IF NOT EXISTS (
+		CREATE TABLE IF NOT EXISTS %s  (
 			id serial PRIMARY KEY,
 			ip varchar(255) NOT NULL UNIQUE,
 			CREATED_AT timestamp DEFAULT now()
 		);`, WhiteListTable)
 
 		blackListQuery := fmt.Sprintf(`
-		CREATE TABLE %s IF NOT EXISTS (
+		CREATE TABLE IF NOT EXISTS %s  (
 			id serial PRIMARY KEY,
 			ip varchar(255) NOT NULL UNIQUE,
 			CREATED_AT timestamp DEFAULT now()

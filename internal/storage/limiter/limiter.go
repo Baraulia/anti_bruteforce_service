@@ -2,9 +2,10 @@ package limiter
 
 import (
 	"context"
-	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 	"sync"
 	"time"
+
+	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 
 type Limiter struct {
@@ -37,7 +38,7 @@ func (l *Limiter) clear() {
 	l.Lock()
 	defer l.Unlock()
 	for key, value := range l.buckets {
-		if time.Now().Sub(value.LastUpdate) > time.Duration(l.frequency)*time.Second {
+		if time.Since(value.LastUpdate) > time.Duration(l.frequency)*time.Second {
 			delete(l.buckets, key)
 		}
 	}
@@ -53,19 +54,19 @@ func (l *Limiter) CheckLimit(_ context.Context, key string) (int, error) {
 			LastUpdate:   time.Now(),
 		}
 		return 1, nil
-	} else {
-		diffTime := int64(time.Now().Sub(value.LastUpdate).Seconds())
-		switch diffTime >= int64(value.CurrentCount) {
-		case true:
-			value.CurrentCount = 1
-			value.LastUpdate = time.Now()
-			return 1, nil
-		default:
-			value.CurrentCount += 1
-			value.CurrentCount -= int(diffTime)
-			value.LastUpdate = time.Now()
-			return value.CurrentCount, nil
-		}
+	}
+
+	diffTime := int64(time.Since(value.LastUpdate).Seconds())
+	switch diffTime >= int64(value.CurrentCount) {
+	case true:
+		value.CurrentCount = 1
+		value.LastUpdate = time.Now()
+		return 1, nil
+	default:
+		value.CurrentCount++
+		value.CurrentCount -= int(diffTime)
+		value.LastUpdate = time.Now()
+		return value.CurrentCount, nil
 	}
 }
 

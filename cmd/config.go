@@ -34,7 +34,7 @@ type HTTPServerConf struct {
 type AppConfig struct {
 	LoginLimitAttempts    int
 	PasswordLimitAttempts int
-	IpLimitAttempts       int
+	IPLimitAttempts       int
 	Frequency             int
 }
 
@@ -60,7 +60,7 @@ func NewConfig(path string) (Config, error) {
 		return conf, err
 	}
 
-	err = viper.BindEnv("App.IpLimitAttempts", "ipLimit")
+	err = viper.BindEnv("App.IPLimitAttempts", "ipLimit")
 	if err != nil {
 		return conf, err
 	}
@@ -72,7 +72,7 @@ func NewConfig(path string) (Config, error) {
 	viper.SetDefault("SQL.Database", "backend")
 	viper.SetDefault("App.LoginLimitAttempts", 10)
 	viper.SetDefault("App.PasswordLimitAttempts", 100)
-	viper.SetDefault("App.IpLimitAttempts", 1000)
+	viper.SetDefault("App.IPLimitAttempts", 1000)
 	viper.SetDefault("App.Frequency", 60)
 	viper.SetConfigFile(path)
 

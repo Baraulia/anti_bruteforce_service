@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 
@@ -15,7 +16,7 @@ func (h *Handler) validateData(data models.Data, fullData bool) error {
 		err += "empty password in request"
 	}
 
-	valid := h.patternIP.MatchString(data.Ip)
+	valid := h.patternIP.MatchString(data.IP)
 
 	if !valid {
 		err += "invalid ip in request"

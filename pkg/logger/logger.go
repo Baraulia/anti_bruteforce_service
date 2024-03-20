@@ -79,7 +79,6 @@ func GetLogger(level string, saveLogsInFile bool) (*ZapLogger, error) {
 		}
 
 		logger = &ZapLogger{zap.New(zapcore.NewTee(cores...)).Sugar(), file}
-
 	})
 
 	return logger, err

@@ -4,15 +4,16 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	mockservice "github.com/Baraulia/anti_bruteforce_service/internal/api/mocks"
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 	"github.com/Baraulia/anti_bruteforce_service/pkg/logger"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 func TestCheck(t *testing.T) {
@@ -31,7 +32,7 @@ func TestCheck(t *testing.T) {
 				s.EXPECT().Check(gomock.Any(), models.Data{
 					Login:    "Test",
 					Password: "Test",
-					Ip:       "192.1.1.0/25",
+					IP:       "192.1.1.0/25",
 				}).Return(true, nil)
 			},
 			method:              http.MethodPost,
@@ -45,7 +46,7 @@ func TestCheck(t *testing.T) {
 				s.EXPECT().Check(gomock.Any(), models.Data{
 					Login:    "Test",
 					Password: "Test",
-					Ip:       "192.1.1.0/25",
+					IP:       "192.1.1.0/25",
 				}).Return(false, nil)
 			},
 			method:              http.MethodPost,
@@ -91,7 +92,7 @@ func TestCheck(t *testing.T) {
 				s.EXPECT().Check(gomock.Any(), models.Data{
 					Login:    "Test",
 					Password: "Test",
-					Ip:       "192.1.1.0/25",
+					IP:       "192.1.1.0/25",
 				}).Return(false, errors.New("server error"))
 			},
 			inputBody:           `{"login":"Test","password":"Test","ip":"192.1.1.0/25"}`,
@@ -447,7 +448,7 @@ func TestClearBuckets(t *testing.T) {
 			mockBehavior: func(s *mockservice.MockApplicationInterface) {
 				s.EXPECT().ClearBuckets(gomock.Any(), models.Data{
 					Login: "Test",
-					Ip:    "192.1.1.0/25",
+					IP:    "192.1.1.0/25",
 				}).Return(nil)
 			},
 			method:              http.MethodPost,
@@ -484,7 +485,7 @@ func TestClearBuckets(t *testing.T) {
 			mockBehavior: func(s *mockservice.MockApplicationInterface) {
 				s.EXPECT().ClearBuckets(gomock.Any(), models.Data{
 					Login: "Test",
-					Ip:    "192.1.1.0/25",
+					IP:    "192.1.1.0/25",
 				}).Return(errors.New("server error"))
 			},
 			inputBody:           `{"login":"Test","ip":"192.1.1.0/25"}`,

@@ -2,10 +2,11 @@ package handlers
 
 //nolint:depguard
 import (
-	"github.com/Baraulia/anti_bruteforce_service/internal/api"
-	"github.com/Baraulia/anti_bruteforce_service/internal/app"
 	"net/http"
 	"regexp"
+
+	"github.com/Baraulia/anti_bruteforce_service/internal/api"
+	"github.com/Baraulia/anti_bruteforce_service/internal/app"
 )
 
 type Handler struct {

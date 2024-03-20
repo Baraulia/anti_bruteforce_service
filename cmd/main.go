@@ -1,24 +1,24 @@
 package main
 
+//nolint:depguard
 import (
 	"context"
 	"flag"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
 	"github.com/Baraulia/anti_bruteforce_service/internal/api/http/handlers"
 	"github.com/Baraulia/anti_bruteforce_service/internal/app"
 	"github.com/Baraulia/anti_bruteforce_service/internal/storage/limiter"
 	sqlstorage "github.com/Baraulia/anti_bruteforce_service/internal/storage/sql"
 	"github.com/Baraulia/anti_bruteforce_service/pkg/logger"
 	internalhttp "github.com/Baraulia/anti_bruteforce_service/pkg/server/http"
-	"log"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
 )
 
-var (
-	configFile string
-)
+var configFile string
 
 func init() {
 	flag.StringVar(&configFile, "config", "./configs/config.yaml", "Path to configuration file")
@@ -52,7 +52,8 @@ func main() {
 
 	lim := limiter.NewLimiter(config.App.Frequency)
 
-	application := app.New(logg, storage, lim, config.App.LoginLimitAttempts, config.App.PasswordLimitAttempts, config.App.IpLimitAttempts)
+	application := app.New(
+		logg, storage, lim, config.App.LoginLimitAttempts, config.App.PasswordLimitAttempts, config.App.IPLimitAttempts)
 
 	handler := handlers.NewHandler(logg, application)
 	server := internalhttp.NewServer(logg, config.HTTPServer.Host, config.HTTPServer.Port, handler.InitRoutes())
@@ -77,5 +78,4 @@ func main() {
 	if err = server.Stop(ctx); err != nil {
 		logg.Error("failed to stop http server: "+err.Error(), nil)
 	}
-
 }

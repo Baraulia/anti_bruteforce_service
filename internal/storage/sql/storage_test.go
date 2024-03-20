@@ -3,10 +3,11 @@ package sqlstorage
 import (
 	"context"
 	"fmt"
+	"testing"
+
 	"github.com/Baraulia/anti_bruteforce_service/pkg/logger"
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestAddToWhiteList(t *testing.T) {
@@ -22,7 +23,8 @@ func TestAddToWhiteList(t *testing.T) {
 		logger: logg,
 	}
 
-	mock.ExpectExec(fmt.Sprintf("INSERT INTO %s", WhiteListTable)).WithArgs("192.1.1.0/25").WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec(fmt.Sprintf(
+		"INSERT INTO %s", WhiteListTable)).WithArgs("192.1.1.0/25").WillReturnResult(sqlmock.NewResult(1, 1))
 
 	err = storage.AddToWhiteList(context.Background(), "192.1.1.0/25")
 	require.NoError(t, err)
@@ -44,7 +46,8 @@ func TestAddToBlackList(t *testing.T) {
 		logger: logg,
 	}
 
-	mock.ExpectExec(fmt.Sprintf("INSERT INTO %s", BlackListTable)).WithArgs("192.1.1.0/25").WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec(fmt.Sprintf(
+		"INSERT INTO %s", BlackListTable)).WithArgs("192.1.1.0/25").WillReturnResult(sqlmock.NewResult(1, 1))
 
 	err = storage.AddToBlackList(context.Background(), "192.1.1.0/25")
 	require.NoError(t, err)
@@ -66,7 +69,8 @@ func TestRemoveFromWhiteList(t *testing.T) {
 		logger: logg,
 	}
 
-	mock.ExpectExec(fmt.Sprintf("DELETE FROM %s", WhiteListTable)).WithArgs("192.1.1.0/25").WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec(fmt.Sprintf(""+
+		"DELETE FROM %s", WhiteListTable)).WithArgs("192.1.1.0/25").WillReturnResult(sqlmock.NewResult(1, 1))
 
 	err = storage.RemoveFromWhiteList(context.Background(), "192.1.1.0/25")
 	require.NoError(t, err)
@@ -88,7 +92,8 @@ func TestRemoveFromBlackList(t *testing.T) {
 		logger: logg,
 	}
 
-	mock.ExpectExec(fmt.Sprintf("DELETE FROM %s", BlackListTable)).WithArgs("192.1.1.0/25").WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectExec(fmt.Sprintf(
+		"DELETE FROM %s", BlackListTable)).WithArgs("192.1.1.0/25").WillReturnResult(sqlmock.NewResult(1, 1))
 
 	err = storage.RemoveFromBlackList(context.Background(), "192.1.1.0/25")
 	require.NoError(t, err)

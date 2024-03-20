@@ -1,11 +1,11 @@
 package handlers
 
-//nolint:depguard
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 	"net/http"
+
+	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 
 type DataIP struct {
@@ -49,6 +49,7 @@ func (h *Handler) check(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
+//nolint:dupl
 func (h *Handler) addToBlacklist(response http.ResponseWriter, request *http.Request) {
 	if !h.isMethodAllowed(response, request, http.MethodPost) {
 		return
@@ -104,6 +105,7 @@ func (h *Handler) deleteFromBlacklist(response http.ResponseWriter, request *htt
 	response.WriteHeader(http.StatusNoContent)
 }
 
+//nolint:dupl
 func (h *Handler) addToWhitelist(response http.ResponseWriter, request *http.Request) {
 	if !h.isMethodAllowed(response, request, http.MethodPost) {
 		return
@@ -192,8 +194,10 @@ func (h *Handler) clearBuckets(response http.ResponseWriter, request *http.Reque
 
 func (h *Handler) isMethodAllowed(response http.ResponseWriter, request *http.Request, allowedMethod string) bool {
 	if request.Method != allowedMethod {
-		h.logger.Error(fmt.Sprintf("method %s not allowed", request.Method), map[string]interface{}{"want method": allowedMethod})
-		http.Error(response, fmt.Sprintf("Method Not Allowed(want method %s)", allowedMethod), http.StatusMethodNotAllowed)
+		h.logger.Error(fmt.Sprintf(
+			"method %s not allowed", request.Method), map[string]interface{}{"want method": allowedMethod})
+		http.Error(response, fmt.Sprintf(
+			"Method Not Allowed(want method %s)", allowedMethod), http.StatusMethodNotAllowed)
 		return false
 	}
 
