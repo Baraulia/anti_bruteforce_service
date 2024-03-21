@@ -192,6 +192,21 @@ func (h *Handler) clearBuckets(response http.ResponseWriter, request *http.Reque
 	response.WriteHeader(http.StatusNoContent)
 }
 
+func (h *Handler) clearAllBuckets(response http.ResponseWriter, request *http.Request) {
+	if !h.isMethodAllowed(response, request, http.MethodPut) {
+		return
+	}
+
+	err := h.app.ClearAllBuckets(request.Context())
+	if err != nil {
+		h.logger.Error("server error", map[string]interface{}{"error": err})
+		http.Error(response, err.Error(), 500)
+		return
+	}
+
+	response.WriteHeader(http.StatusNoContent)
+}
+
 func (h *Handler) isMethodAllowed(response http.ResponseWriter, request *http.Request, allowedMethod string) bool {
 	if request.Method != allowedMethod {
 		h.logger.Error(fmt.Sprintf(

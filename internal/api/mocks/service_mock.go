@@ -78,6 +78,20 @@ func (mr *MockApplicationInterfaceMockRecorder) Check(ctx, data interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Check", reflect.TypeOf((*MockApplicationInterface)(nil).Check), ctx, data)
 }
 
+// ClearAllBuckets mocks base method.
+func (m *MockApplicationInterface) ClearAllBuckets(ctx context.Context) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ClearAllBuckets", ctx)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ClearAllBuckets indicates an expected call of ClearAllBuckets.
+func (mr *MockApplicationInterfaceMockRecorder) ClearAllBuckets(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClearAllBuckets", reflect.TypeOf((*MockApplicationInterface)(nil).ClearAllBuckets), ctx)
+}
+
 // ClearBuckets mocks base method.
 func (m *MockApplicationInterface) ClearBuckets(ctx context.Context, data models.Data) error {
 	m.ctrl.T.Helper()

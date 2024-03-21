@@ -14,4 +14,5 @@ type ApplicationInterface interface {
 	RemoveFromBlackList(ctx context.Context, ip string) error
 	RemoveFromWhiteList(ctx context.Context, ip string) error
 	ClearBuckets(ctx context.Context, data models.Data) error
+	ClearAllBuckets(ctx context.Context) error
 }

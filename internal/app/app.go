@@ -110,3 +110,7 @@ func (a *App) RemoveFromBlackList(ctx context.Context, ip string) error {
 func (a *App) RemoveFromWhiteList(ctx context.Context, ip string) error {
 	return a.storage.RemoveFromWhiteList(ctx, ip)
 }
+
+func (a *App) ClearAllBuckets(ctx context.Context) error {
+	return a.limiter.ClearAllBuckets(ctx)
+}

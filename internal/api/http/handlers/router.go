@@ -29,6 +29,7 @@ func (h *Handler) InitRoutes() *http.ServeMux {
 	r.HandleFunc("/whitelist/add", h.addToWhitelist)         // method POST
 	r.HandleFunc("/whitelist/remove", h.deleteFromWhitelist) // method DELETE
 	r.HandleFunc("/clear", h.clearBuckets)
+	r.HandleFunc("/clearAllBuckets", h.clearAllBuckets)
 
 	return r
 }

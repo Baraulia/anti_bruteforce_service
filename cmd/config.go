@@ -50,6 +50,11 @@ func NewConfig(path string) (Config, error) {
 		return conf, err
 	}
 
+	err = viper.BindEnv("SQL.Database", "sqlDatabase")
+	if err != nil {
+		return conf, err
+	}
+
 	err = viper.BindEnv("App.LoginLimitAttempts", "loginLimit")
 	if err != nil {
 		return conf, err

@@ -7,10 +7,10 @@ services:
       dockerfile: Dockerfile
     command: "true"
     environment:
-      TESTS_AMQP_DSN: "amqp://guest:guest@rabbitmq:5672/"
       POSTGRES_HOST: "postgres"
     networks:
-      - calendar_network
+      - abs_network
+
   postgres:
     image: postgres:latest
     environment:
@@ -19,92 +19,33 @@ services:
       POSTGRES_DB: postgres
     ports:
       - "5435:5432"
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-test-data:/var/lib/postgresql/data
     networks:
-      - calendar_network
+      - abs_network
 
-  rabbitmq:
-    image: rabbitmq:management
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    ports:
-      - "5672:5672"
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
-    networks:
-      - calendar_network
-
-  calendar:
+  ab_service:
     build:
       context: ../
-      dockerfile: build/calendar/Dockerfile
+      dockerfile: build/Dockerfile
     restart: always
     environment:
-      DATABASE: sql
-      TRANSPORT: http
+      loginLimit: 3
+      passwordLimit: 3
+      ipLimit: 3
       sqlHost: postgres
       sqlPort: 5432
       sqlDatabase: "postgres"
     ports:
-      - "8088:8080"
+      - "8085:8085"
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
     networks:
-      - calendar_network
-
-  scheduler:
-    build:
-      context: ../
-      dockerfile: build/scheduler/Dockerfile
-    restart: always
-    environment:
-      sqlHost: postgres
-      sqlPort: 5432
-      sqlDatabase: "postgres"
-      mbHost: rabbitmq
-      mbPort: 5672
-      mbUsername: "guest"
-      mbPassword: "guest"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    networks:
-      - calendar_network
-
-  sender:
-    build:
-      context: ../
-      dockerfile: build/sender/Dockerfile
-    restart: always
-    environment:
-      mbHost: rabbitmq
-      mbPort: 5672
-      mbUsername: "guest"
-      mbPassword: "guest"
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-    networks:
-      - calendar_network
+      - abs_network
 
 networks:
-  calendar_network:
+  abs_network:
 
 volumes:
-  postgres-data:
+  postgres-test-data:
 
