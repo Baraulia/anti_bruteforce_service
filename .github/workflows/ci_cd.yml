@@ -14,22 +14,22 @@ jobs:
     name: Run golangci-lint
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+      - name: Extract branch name
+        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: ^1.21
 
-      - name: Set up GOROOT
-        run: echo "GOROOT=${{ env.RUNNER_TEMP }}/hostedtoolcache/go/1.21.4/x64" >> $GITHUB_ENV
-
+      - name: Check out code
+        uses: actions/checkout@v3
 
       - name: Linters
         uses: golangci/golangci-lint-action@v3
         with:
           version: v1.50.1
+          working-directory: ${{ env.BRANCH }}
 
   tests:
     name: Run unit tests
