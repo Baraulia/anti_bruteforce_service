@@ -1,9 +1,9 @@
 package handlers
 
+//nolint:depguard
 import (
 	"errors"
 
-	//nolint:depguard
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 

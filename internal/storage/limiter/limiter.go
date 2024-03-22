@@ -1,11 +1,11 @@
 package limiter
 
+//nolint:depguard
 import (
 	"context"
 	"sync"
 	"time"
 
-	//nolint:depguard
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 

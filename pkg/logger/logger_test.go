@@ -1,12 +1,12 @@
 package logger
 
+//nolint:depguard
 import (
 	"context"
 	"os"
 	"sync"
 	"testing"
 
-	//nolint:depguard
 	"github.com/stretchr/testify/require"
 )
 

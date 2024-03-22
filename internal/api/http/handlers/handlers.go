@@ -1,11 +1,11 @@
 package handlers
 
+//nolint:depguard
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	//nolint:depguard
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 
