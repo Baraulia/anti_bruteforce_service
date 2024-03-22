@@ -1,6 +1,6 @@
 module github.com/Baraulia/anti_bruteforce_service
 
-go 1.21.6
+go 1.21
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
