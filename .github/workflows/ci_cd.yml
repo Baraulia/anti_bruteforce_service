@@ -22,6 +22,10 @@ jobs:
         with:
           go-version: ^1.21
 
+      - name: Set up GOROOT
+        run: echo "GOROOT=${{ env.RUNNER_TEMP }}/hostedtoolcache/go/1.21.4/x64" >> $GITHUB_ENV
+
+
       - name: Linters
         uses: golangci/golangci-lint-action@v3
         with:
