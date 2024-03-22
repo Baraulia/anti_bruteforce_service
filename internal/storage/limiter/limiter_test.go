@@ -1,5 +1,6 @@
 package limiter
 
+//nolint:depguard
 import (
 	"context"
 	"testing"

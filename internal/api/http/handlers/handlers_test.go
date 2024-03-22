@@ -1,5 +1,6 @@
 package handlers
 
+//nolint:depguard
 import (
 	"bytes"
 	"errors"
@@ -291,6 +292,7 @@ func TestAddToWhiteList(t *testing.T) {
 	}
 }
 
+//nolint:dupl
 func TestDeleteFromBlackList(t *testing.T) {
 	type mockBehavior func(s *mockservice.MockApplicationInterface)
 	testTable := []struct {
@@ -362,6 +364,7 @@ func TestDeleteFromBlackList(t *testing.T) {
 	}
 }
 
+//nolint:dupl
 func TestDeleteFromWhiteList(t *testing.T) {
 	type mockBehavior func(s *mockservice.MockApplicationInterface)
 	testTable := []struct {

@@ -97,8 +97,7 @@ func GetLoggerFromContext(ctx context.Context) (*ZapLogger, error) {
 }
 
 func (l *ZapLogger) Close() {
-	err := l.file.Close()
-	if err != nil {
+	if err := l.file.Close(); err != nil {
 		log.Fatalf("error while closing file with logs: %v", err)
 	}
 }

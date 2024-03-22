@@ -20,11 +20,10 @@ build:
 	go build -v -o $(BIN_SERVICE) -ldflags "$(LDFLAGS)" ./cmd
 
 run-postgres:
-ifeq ($(DATABASE),sql)
 ifneq ($(shell docker ps -q --filter "name=$(POSTGRES_CONTAINER)"),)
 	@echo "Container $(POSTGRES_CONTAINER) is already running."
 else
-	docker run -d --network=$(NETWORK_NAME) --name $(POSTGRES_CONTAINER) \
+	docker run -d --name $(POSTGRES_CONTAINER) \
     	-e POSTGRES_USER=$(POSTGRES_USER) \
     	-e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) \
     	-e POSTGRES_DB=$(POSTGRES_DB) \
@@ -32,10 +31,9 @@ else
     	-v postgres-data:/var/lib/postgresql/data \
     	postgres:latest
 endif
-endif
 
 run: build run-postgres
-	$(BIN_CALENDAR) -config ./configs/config.yaml
+	$(BIN_SERVICE) -config ./configs/config.yaml
 
 build-service-img:
 	docker build \
@@ -44,7 +42,7 @@ build-service-img:
 		-f build/Dockerfile .
 
 run-service-img: build-service-img
-	docker run --network=$(NETWORK_NAME) --name $(SERVICE_CONTAINER) \
+	docker run --name $(SERVICE_CONTAINER) \
  	-e sqlHost=$(POSTGRES_CONTAINER) -e sqlPort=5432 $(SERVICE_IMG)
 
 test:

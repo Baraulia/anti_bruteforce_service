@@ -160,9 +160,6 @@ func (s *PostgresStorage) CheckIPInBlackList(ctx context.Context, ip string) (bo
 
 func (s *PostgresStorage) CheckReadness() (bool, error) {
 	err := s.db.Ping()
-	if err != nil {
-		return false, err
-	}
 
-	return true, nil
+	return err == nil, err
 }

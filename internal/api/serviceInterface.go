@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 
+	//nolint:depguard
 	"github.com/Baraulia/anti_bruteforce_service/internal/models"
 )
 

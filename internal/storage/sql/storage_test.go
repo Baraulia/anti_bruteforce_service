@@ -1,5 +1,6 @@
 package sqlstorage
 
+//nolint:depguard
 import (
 	"context"
 	"fmt"
