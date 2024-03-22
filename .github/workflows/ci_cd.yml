@@ -17,10 +17,10 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.21.4
+          go-version: ~1.19
 
       - name: Set GOROOT
-        run: echo "GOROOT=/opt/hostedtoolcache/go/1.21.4/x64" >> $GITHUB_ENV
+        run: echo "GOROOT=$(go env GOROOT)" >> $GITHUB_ENV
 
       - name: Check out code
         uses: actions/checkout@v3
