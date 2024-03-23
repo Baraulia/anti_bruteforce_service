@@ -45,7 +45,6 @@ jobs:
 
       - name: Unit tests
         run: go test -v -count=100 -race ./...
-        working-directory: .
 
   build:
     runs-on: ubuntu-latest
