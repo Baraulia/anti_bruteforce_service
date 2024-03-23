@@ -32,7 +32,7 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-          args: run --out-format=json .
+          args: --out-format=json
 
   tests:
     name: Run unit tests
