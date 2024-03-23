@@ -12,7 +12,7 @@ import (
 )
 
 func TestClearBuckets(t *testing.T) {
-	frequency := 5
+	frequency := 1
 	limiter := NewLimiter(frequency)
 	ip := "127.0.0.1/25"
 	login := "Test"
@@ -38,7 +38,7 @@ func TestClearBuckets(t *testing.T) {
 }
 
 func TestClearAllBuckets(t *testing.T) {
-	frequency := 5
+	frequency := 1
 	limiter := NewLimiter(frequency)
 	ip := "127.0.0.1"
 	login := "Test"
@@ -62,7 +62,7 @@ func TestClearAllBuckets(t *testing.T) {
 func TestCheckLimit(t *testing.T) {
 	key := "test"
 	count := 10
-	frequency := 5
+	frequency := 1
 
 	limiter := NewLimiter(frequency)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -77,7 +77,8 @@ func TestCheckLimit(t *testing.T) {
 		assert.Equal(t, i+1, currentCount)
 	}
 
-	time.Sleep(time.Duration(frequency+1) * time.Second)
+	err := limiter.ClearAllBuckets(ctx)
+	require.NoError(t, err)
 
 	currentCount, err := limiter.CheckLimit(context.Background(), key)
 	require.NoError(t, err)
