@@ -46,7 +46,7 @@ run-service-img: build-service-img
  	-e sqlHost=$(POSTGRES_CONTAINER) -e sqlPort=5432 $(SERVICE_IMG)
 
 test:
-	go test -count=5 -race ./...
+	go test -count=100 -v -race ./...
 
 install-lint-deps:
 	(which golangci-lint > /dev/null) || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell go env GOPATH)/bin latest
