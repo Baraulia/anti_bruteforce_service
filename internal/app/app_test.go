@@ -34,7 +34,7 @@ func TestCheck(t *testing.T) {
 		{
 			name:      "IP in white list",
 			inputData: models.Data{Login: "Test", Password: "Test", IP: "192.1.1.0/25"},
-			mockBehavior: func(storage *mockstorage.MockStorage, limiter *mocklimiter.MockLimiter) {
+			mockBehavior: func(storage *mockstorage.MockStorage, _ *mocklimiter.MockLimiter) {
 				storage.EXPECT().CheckIPInWhiteList(gomock.Any(), "192.1.1.0/25").Return(true, nil)
 			},
 			expectedResult: true,
@@ -47,7 +47,7 @@ func TestCheck(t *testing.T) {
 				Password: "Test",
 				IP:       "192.1.1.0/25",
 			},
-			mockBehavior: func(storage *mockstorage.MockStorage, limiter *mocklimiter.MockLimiter) {
+			mockBehavior: func(storage *mockstorage.MockStorage, _ *mocklimiter.MockLimiter) {
 				storage.EXPECT().CheckIPInWhiteList(gomock.Any(), "192.1.1.0/25").Return(false, nil)
 				storage.EXPECT().CheckIPInBlackList(gomock.Any(), "192.1.1.0/25").Return(true, nil)
 			},
@@ -106,7 +106,7 @@ func TestCheck(t *testing.T) {
 		{
 			name:      "internal error from storage",
 			inputData: models.Data{Login: "Test", Password: "Test", IP: "192.1.1.0/25"},
-			mockBehavior: func(storage *mockstorage.MockStorage, limiter *mocklimiter.MockLimiter) {
+			mockBehavior: func(storage *mockstorage.MockStorage, _ *mocklimiter.MockLimiter) {
 				storage.EXPECT().CheckIPInWhiteList(gomock.Any(), "192.1.1.0/25").Return(
 					false, errors.New("internal error"),
 				)
