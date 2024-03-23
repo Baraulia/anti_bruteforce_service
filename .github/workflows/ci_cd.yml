@@ -25,11 +25,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: List directory contents
+        run: ls -l
+
       - name: Linters
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-          args: run --print-issued-lines  ./...
+          args: run --out-format=json .
 
   tests:
     name: Run unit tests
