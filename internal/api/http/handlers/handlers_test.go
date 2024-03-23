@@ -57,7 +57,7 @@ func TestCheck(t *testing.T) {
 		},
 		{
 			name:                "invalid IP",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login":"Test","password":"Test","ip":"192.1.1.0/255.255.255.128"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -65,7 +65,7 @@ func TestCheck(t *testing.T) {
 		},
 		{
 			name:                "empty login",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login":"","password":"Test","ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -73,7 +73,7 @@ func TestCheck(t *testing.T) {
 		},
 		{
 			name:                "empty password",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login":"Test","password":"","ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -81,7 +81,7 @@ func TestCheck(t *testing.T) {
 		},
 		{
 			name:                "invalid method",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login":"Test","password":"","ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  405,
 			method:              http.MethodDelete,
@@ -103,7 +103,7 @@ func TestCheck(t *testing.T) {
 		},
 		{
 			name:                "invalid json",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login"="Test","password":"Test","ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -156,7 +156,7 @@ func TestAddToBlackList(t *testing.T) {
 		},
 		{
 			name:                "invalid IP",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"ip":"192.1.1.0/255.255.255.192"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -164,7 +164,7 @@ func TestAddToBlackList(t *testing.T) {
 		},
 		{
 			name:                "invalid method",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  405,
 			method:              http.MethodDelete,
@@ -182,7 +182,7 @@ func TestAddToBlackList(t *testing.T) {
 		},
 		{
 			name:                "invalid json",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"ip"="192.1.1.0/25"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -235,7 +235,7 @@ func TestAddToWhiteList(t *testing.T) {
 		},
 		{
 			name:                "invalid IP",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"ip":"192.1.1.0/255.255.255.192"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -243,7 +243,7 @@ func TestAddToWhiteList(t *testing.T) {
 		},
 		{
 			name:                "invalid method",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  405,
 			method:              http.MethodDelete,
@@ -261,7 +261,7 @@ func TestAddToWhiteList(t *testing.T) {
 		},
 		{
 			name:                "invalid json",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"ip"="192.1.1.0/25"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -315,7 +315,7 @@ func TestDeleteFromBlackList(t *testing.T) {
 		},
 		{
 			name:                "invalid IP",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			ip:                  "192.1.1.0/255.255.255.192",
 			expectedStatusCode:  400,
 			method:              http.MethodDelete,
@@ -323,7 +323,7 @@ func TestDeleteFromBlackList(t *testing.T) {
 		},
 		{
 			name:                "invalid method",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			ip:                  "192.1.1.0/25",
 			expectedStatusCode:  405,
 			method:              http.MethodPut,
@@ -387,7 +387,7 @@ func TestDeleteFromWhiteList(t *testing.T) {
 		},
 		{
 			name:                "invalid IP",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			ip:                  "192.1.1.0/255.255.255.192",
 			expectedStatusCode:  400,
 			method:              http.MethodDelete,
@@ -395,7 +395,7 @@ func TestDeleteFromWhiteList(t *testing.T) {
 		},
 		{
 			name:                "invalid method",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			ip:                  "192.1.1.0/25",
 			expectedStatusCode:  405,
 			method:              http.MethodPut,
@@ -461,7 +461,7 @@ func TestClearBuckets(t *testing.T) {
 		},
 		{
 			name:                "invalid IP",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login":"Test","ip":"192.1.1.0/255.255.255.128"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -469,7 +469,7 @@ func TestClearBuckets(t *testing.T) {
 		},
 		{
 			name:                "empty login",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login":"","ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
@@ -477,7 +477,7 @@ func TestClearBuckets(t *testing.T) {
 		},
 		{
 			name:                "invalid method",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login":"Test","ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  405,
 			method:              http.MethodDelete,
@@ -498,7 +498,7 @@ func TestClearBuckets(t *testing.T) {
 		},
 		{
 			name:                "invalid json",
-			mockBehavior:        func(s *mockservice.MockApplicationInterface) {},
+			mockBehavior:        func(_ *mockservice.MockApplicationInterface) {},
 			inputBody:           `{"login"="Test","ip":"192.1.1.0/25"}`,
 			expectedStatusCode:  400,
 			method:              http.MethodPost,
