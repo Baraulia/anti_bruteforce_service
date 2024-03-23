@@ -29,7 +29,7 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-          args: run --print-issues ./...
+          args: run --print-issued-lines  ./...
 
   tests:
     name: Run unit tests
